@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: pagila-postgres-prisma
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
+    volumes:
+      - pagila-postgres-prisma-data:/var/lib/postgresql/data
+
+volumes:
+  pagila-postgres-prisma-data:

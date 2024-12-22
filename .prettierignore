@@ -1,0 +1,31 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore build outputs (e.g., transpiled JS files, declaration files, etc.)
+dist/
+build/
+
+# Ignore environment variables file
+.env
+
+# Ignore Prisma generated files
+prisma/generated/
+
+# Ignore coverage files (if you use Jest or any testing tool that outputs coverage reports)
+coverage/
+
+# Ignore lock files
+*.lock
+
+# Ignore JSON data or config files that you prefer to manage manually
+*.config.js
+
+# Ignore Docker-related files, if any
+docker-compose.yml
+
+# Ignore package manager logs
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# Ignore any other generated file or folder that should not be formatted by Prettier

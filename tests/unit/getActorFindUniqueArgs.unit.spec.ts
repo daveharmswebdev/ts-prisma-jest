@@ -1,19 +1,19 @@
 import { Request } from 'express';
-import { getFilmFindUniqueArgs } from '../src/services/helpers/getFilmFindUniqueArgs';
+import { getActorFindUniqueArgs } from '../../src/services/helpers/getActorFindUniqueArgs';
 
-describe('getFilmFindUniqueArgs', () => {
-  it('should return a where object when given a film id', () => {
+describe('getActorFindUniqueArgs', () => {
+  it('should return the correct args when taking in a id route param', () => {
     const req: Partial<Request> = {
       params: {
         id: '1',
       },
     };
 
-    const args = getFilmFindUniqueArgs(req as Request);
+    const args = getActorFindUniqueArgs(req as Request);
 
     const expected = {
       where: {
-        film_id: 1,
+        actor_id: 1,
       },
     };
 
@@ -27,8 +27,8 @@ describe('getFilmFindUniqueArgs', () => {
       },
     };
 
-    expect(() => getFilmFindUniqueArgs(req as Request)).toThrow(
-      'Invalid film id'
+    expect(() => getActorFindUniqueArgs(req as Request)).toThrow(
+      'Invalid actor id'
     );
   });
 });

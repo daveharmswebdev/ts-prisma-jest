@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { getActorFindManyArgs } from '../src/services/helpers/getActorFindManyArgs';
+import { getActorFindManyArgs } from '../../src/services/helpers/getActorFindManyArgs';
 
 describe('getActorFindManyArgs', () => {
   it('should return an empty object when no search parameter is given', () => {

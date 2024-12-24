@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    container_name: pagila-postgres-prisma-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pagila-test
+    ports:
+      - '5433:5432'

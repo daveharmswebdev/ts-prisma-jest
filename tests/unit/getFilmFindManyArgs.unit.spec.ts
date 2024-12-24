@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { getFilmFindManyArgs } from '../src/services/helpers/getFilmFindManyArgs';
+import { getFilmFindManyArgs } from '../../src/services/helpers/getFilmFindManyArgs';
 
 describe('Produce where object', () => {
   it('should produce where object when title is part of the query', () => {

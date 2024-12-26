@@ -23,7 +23,17 @@ const config = {
   },
   testMatch: ['<rootDir>/tests/unit/**/*.unit.spec.ts'],
   rootDir: './',
-  collectCoverageFrom: ['src/**/*.ts'],
+  collectCoverageFrom: [
+    'src/**/*.ts', // Collects coverage from all source files
+    '!src/services/**',
+    '!src/routes/**',
+    '!src/tests/**', // Excludes test files from coverage
+    '!**/*.d.ts', // Excludes TypeScript declaration files
+  ],
+  moduleDirectories: [
+    'node_modules',
+    '<rootDir>/src', // Allows imports from the src directory without relative paths
+  ],
 };
 
 module.exports = config;

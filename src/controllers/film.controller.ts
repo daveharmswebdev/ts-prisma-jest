@@ -10,7 +10,7 @@ export const getAllFilms = async (req: Request, res: Response) => {
     res.status(200).json(films);
   } catch (error: any) {
     console.error('Error fetching films', error);
-    res.status(500).send({ error: error.message || 'Failed to fetch films' });
+    res.status(500).json({ error: error.message || 'Failed to fetch films' });
   }
 };
 
@@ -21,6 +21,6 @@ export const getFilmById = async (req: Request, res: Response) => {
     res.status(200).json(film);
   } catch (error: any) {
     console.error('Error fetching films', error);
-    res.status(500).send({ error: error.message || 'Failed to fetch films' });
+    res.status(500).json({ error: error.message || 'Failed to fetch films' });
   }
 };

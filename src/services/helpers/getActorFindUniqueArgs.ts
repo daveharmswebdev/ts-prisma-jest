@@ -1,3 +1,5 @@
+jest.disableAutomock(); // Disable auto-mocking globally for this test file
+
 import { Request } from 'express';
 import { Prisma } from '@prisma/client';
 

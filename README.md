@@ -17,6 +17,27 @@ The project demonstrates how to write clean, testable code with unit tests writt
 
 ---
 
+## Local DB
+
+## Setting up DB
+
+```bash
+docker compose up -d
+```
+
+```bash
+docker cp pagila-schema.sql pagila-postgres-prisma:/pagila-schema.sql
+docker cp pagila-data.sql pagila-postgres-prisma:/pagila-data.sql
+docker exec -it pagila-postgres-prisma psql -U postgres
+```
+
+```sql
+CREATE DATABASE pagila;
+\c pagila
+\i /pagila-schema.sql
+\i /pagila-data.sql
+```
+
 ## Installation
 
 Make sure you have **Node.js** and **npm** installed on your machine.
@@ -243,7 +264,3 @@ We welcome contributions! To contribute:
 3. Submit your pull request.
 
 ---
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).

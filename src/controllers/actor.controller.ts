@@ -1,43 +1,27 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { fetchActorsWithFilmCount } from '../services/actor.service';
-import { getActorFindManyArgs } from '../services/helpers/getActorFindManyArgs';
 import { getActorFindUniqueArgs } from '../services/helpers/getActorFindUniqueArgs';
+import { fetchActorById, fetchAllActors } from '../services/actor.service';
+import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 
 const prisma = new PrismaClient();
 
 export const getAllActors = async (req: Request, res: Response) => {
   try {
-    const args = getActorFindManyArgs(req);
-    const actors = await prisma.actor.findMany(args);
-    res.json(actors);
-  } catch (error) {
+    const args = fetchAllActorsWithFilmCountArgs(req);
+    const actors = await fetchAllActors(args);
+    res.status(200).json(actors);
+  } catch (error: any) {
     console.error('Error fetching actors:', error);
-    res.status(500).json({ error: 'Failed to fetch actors' });
-  }
-};
-
-export const getActorsWithFilms = async (req: Request, res: Response) => {
-  try {
-    const actors = await fetchActorsWithFilmCount();
-    const response = actors.map(actor => ({
-      actor_id: actor.actor_id,
-      first_name: actor.first_name,
-      last_name: actor.last_name,
-      total_films: actor._count.film_actor,
-    }));
-    res.status(200).json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch actors with films' });
+    res.status(500).json({ error: error.message || 'Failed to fetch actors' });
   }
 };
 
 export const getActorById = async (req: Request, res: Response) => {
   try {
-    const actor = await prisma.actor.findUnique(getActorFindUniqueArgs(req));
+    const actor = await fetchActorById(getActorFindUniqueArgs(req));
     if (actor) {
-      res.json(actor);
+      res.status(200).json(actor);
     } else {
       res.status(404).json({ error: 'Actor not found' });
     }

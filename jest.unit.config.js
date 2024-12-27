@@ -25,18 +25,16 @@ const config = {
   rootDir: './',
   collectCoverageFrom: [
     'src/**/*.ts', // Collects coverage from all source files
-    '!src/services/**',
     '!src/routes/**',
     '!src/tests/**', // Excludes test files from coverage
     '!**/*.d.ts', // Excludes TypeScript declaration files
+    '!src/services/**',
+    'src/services/helpers/**/*'
   ],
   moduleDirectories: [
     'node_modules',
     '<rootDir>/src', // Allows imports from the src directory without relative paths
   ],
-  moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/$1"
-  }
 };
 
 module.exports = config;

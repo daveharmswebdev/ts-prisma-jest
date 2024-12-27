@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Prisma } from '@prisma/client';
-import { getActorFindManyArgs } from '@/services/helpers/getActorFindManyArgs';
+import { getActorFindManyArgs } from '../getActorFindManyArgs';
 
 export const fetchAllActorsWithFilmCountArgs = (
   req: Request

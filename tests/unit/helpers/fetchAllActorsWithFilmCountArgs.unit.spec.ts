@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { fetchAllActorsWithFilmCountArgs } from '@/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
+import { fetchAllActorsWithFilmCountArgs } from '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 
 describe('fetchAllActorsWithFilmCountArgs', () => {
   it('should return args for fetchAllActorsWithFilmCount', () => {
@@ -28,6 +28,29 @@ describe('fetchAllActorsWithFilmCountArgs', () => {
           },
         ],
       },
+      select: {
+        actor_id: true,
+        first_name: true,
+        last_name: true,
+        _count: {
+          select: {
+            film_actor: true, // Counts the number of films associated with the actor
+          },
+        },
+      },
+    };
+
+    expect(args).toEqual(expected);
+  });
+
+  it('should return just select when there is no query', () => {
+    const req: Partial<Request> = {
+      query: {},
+    };
+
+    const args = fetchAllActorsWithFilmCountArgs(req as Request);
+
+    const expected = {
       select: {
         actor_id: true,
         first_name: true,

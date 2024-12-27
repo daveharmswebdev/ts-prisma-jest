@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { getFilmFindUniqueArgs } from '../services/helpers/getFilmFindUniqueArgs';
-import { fetchAllFilms, fetchFilmById } from '../services/film.service';
 import { getFilmFindManyArgs } from '../services/helpers/getFilmFindManyArgs';
+import { fetchAllFilms, fetchFilmById } from '../services/film.service';
+import { getFilmFindUniqueArgs } from '../services/helpers/getFilmFindUniqueArgs';
 
 export const getAllFilms = async (req: Request, res: Response) => {
   try {

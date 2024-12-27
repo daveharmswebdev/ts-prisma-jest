@@ -8,6 +8,7 @@
     "build": "tsc",
     "dev": "ts-node src/server.ts",
     "test": "jest --config jest.unit.config.js",
+    "test:watch": "jest --watch --config jest.unit.config.js",
     "integration-testing:setup": "./integration-teseting-setup.sh",
     "integration-testing:teardown": "docker compose -f docker-compose.test.yml down",
     "integration-test": "npm run integration-testing:setup && jest --config jest.integration.config.js || true && npm run integration-testing:teardown"

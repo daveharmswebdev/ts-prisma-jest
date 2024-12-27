@@ -34,6 +34,9 @@ const config = {
     'node_modules',
     '<rootDir>/src', // Allows imports from the src directory without relative paths
   ],
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1"
+  }
 };
 
 module.exports = config;

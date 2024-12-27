@@ -1,25 +1,15 @@
 import { Request } from 'express';
-import { getActorFindManyArgs } from '@/services/helpers/getActorFindManyArgs';
+import { fetchAllActorsWithFilmCountArgs } from '@/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 
-describe('getActorFindManyArgs', () => {
-  it('should return an empty object when no search parameter is given', () => {
-    const req: Partial<Request> = {
-      query: {},
-    };
-
-    const args = getActorFindManyArgs(req as Request);
-
-    expect(args).toEqual({});
-  });
-
-  it('should a where arg when give a search parameter', () => {
+describe('fetchAllActorsWithFilmCountArgs', () => {
+  it('should return args for fetchAllActorsWithFilmCount', () => {
     const req: Partial<Request> = {
       query: {
         search: 'test',
       },
     };
 
-    const args = getActorFindManyArgs(req as Request);
+    const args = fetchAllActorsWithFilmCountArgs(req as Request);
 
     const expected = {
       where: {
@@ -37,6 +27,16 @@ describe('getActorFindManyArgs', () => {
             },
           },
         ],
+      },
+      select: {
+        actor_id: true,
+        first_name: true,
+        last_name: true,
+        _count: {
+          select: {
+            film_actor: true, // Counts the number of films associated with the actor
+          },
+        },
       },
     };
 

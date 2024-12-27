@@ -158,6 +158,11 @@ You can also generate a test coverage report using:
 npm run test:coverage
 ```
 
+Webstorm Test Config
+
+```bash
+--config jest.unit.config.js
+```
 ---
 
 ## Development

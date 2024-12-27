@@ -5,6 +5,9 @@ export const fetchActors = async (args: Prisma.actorFindManyArgs) => {
   return prisma.actor.findMany(args);
 };
 
+export const fetchAllActors = async (args: Prisma.actorFindManyArgs) =>
+  prisma.actor.findMany(args);
+
 export const fetchActorsWithFilmCount = async () => {
   return prisma.actor.findMany({
     select: {

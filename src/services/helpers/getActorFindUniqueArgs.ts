@@ -1,5 +1,3 @@
-jest.disableAutomock(); // Disable auto-mocking globally for this test file
-
 import { Request } from 'express';
 import { Prisma } from '@prisma/client';
 
@@ -15,6 +13,21 @@ export const getActorFindUniqueArgs = (
   return {
     where: {
       actor_id: +id,
+    },
+    select: {
+      actor_id: true,
+      first_name: true,
+      last_name: true,
+      film_actor: {
+        select: {
+          film: {
+            select: {
+              film_id: true,
+              title: true,
+            },
+          },
+        },
+      },
     },
   } as Prisma.actorFindUniqueArgs;
 };

@@ -15,6 +15,21 @@ describe('getActorFindUniqueArgs', () => {
       where: {
         actor_id: 1,
       },
+      select: {
+        actor_id: true,
+        first_name: true,
+        last_name: true,
+        film_actor: {
+          select: {
+            film: {
+              select: {
+                film_id: true,
+                title: true,
+              },
+            },
+          },
+        },
+      },
     };
 
     expect(args).toEqual(expected);

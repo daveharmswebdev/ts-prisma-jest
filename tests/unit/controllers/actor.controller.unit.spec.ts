@@ -75,7 +75,7 @@ describe('ActorController', () => {
       });
       mockFetchAllActors.mockReturnValue(mockActors);
 
-      await getAllActors(req as Request, res as Response);
+      await getAllActors(req as Request, res as Response, next);
       expect(mockFetchAllActorsWithFilmCountArgs).toHaveBeenCalledWith(
         req as Request
       );
@@ -109,10 +109,10 @@ describe('ActorController', () => {
         },
       });
       mockFetchAllActors.mockRejectedValue(
-        new Error('Test actor controller error')
+        createError(500, 'Test actor controller error')
       );
 
-      await getAllActors(req as Request, res as Response);
+      await getAllActors(req as Request, res as Response, next);
       expect(mockFetchAllActorsWithFilmCountArgs).toHaveBeenCalledWith(
         req as Request
       );
@@ -128,10 +128,15 @@ describe('ActorController', () => {
           },
         },
       });
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({
-        error: 'Test actor controller error',
-      });
+      expect(res.status).not.toHaveBeenCalled();
+      expect(res.json).not.toHaveBeenCalled();
+
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Test actor controller error',
+          status: 500,
+        })
+      );
     });
   });
 

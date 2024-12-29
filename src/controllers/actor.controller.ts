@@ -6,14 +6,17 @@ import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetc
 
 const prisma = new PrismaClient();
 
-export const getAllActors = async (req: Request, res: Response) => {
+export const getAllActors = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const args = fetchAllActorsWithFilmCountArgs(req);
     const actors = await fetchAllActors(args);
     res.status(200).json(actors);
   } catch (error: any) {
-    console.error('Error fetching actors:', error);
-    res.status(500).json({ error: error.message || 'Failed to fetch actors' });
+    next(error);
   }
 };
 

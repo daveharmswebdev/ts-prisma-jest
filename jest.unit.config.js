@@ -28,8 +28,6 @@ const config = {
     '!src/routes/**',
     '!src/tests/**', // Excludes test files from coverage
     '!**/*.d.ts', // Excludes TypeScript declaration files
-    '!src/services/**',
-    'src/services/helpers/**/*'
   ],
   moduleDirectories: [
     'node_modules',

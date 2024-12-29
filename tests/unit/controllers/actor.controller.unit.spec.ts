@@ -152,8 +152,23 @@ describe('ActorController', () => {
 
     it('should return an actor', async () => {
       const mockActor = {
-        id: 1,
-        name: 'test',
+        actor_id: 1,
+        first_name: 'PENELOPE',
+        last_name: 'GUINESS',
+        films: [
+          {
+            film_id: 1,
+            title: 'ACADEMY DINOSAUR',
+          },
+          {
+            film_id: 23,
+            title: 'ANACONDA CONFESSIONS',
+          },
+          {
+            film_id: 25,
+            title: 'ANGELS LIFE',
+          },
+        ],
       };
 
       mockGetActorFindUniqueArgs.mockReturnValue({

@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 import { getActorFindUniqueArgs } from '../services/helpers/getActorFindUniqueArgs';
 import { fetchActorById, fetchAllActors } from '../services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
-import { IActorResponse, mapFetchActorAndFilms } from './helpers/mappers';
 
 const prisma = new PrismaClient();
 
@@ -22,10 +21,7 @@ export const getActorById = async (req: Request, res: Response) => {
   try {
     const actor = await fetchActorById(getActorFindUniqueArgs(req));
     if (actor) {
-      const mappedResponse = mapFetchActorAndFilms(
-        actor as unknown as IActorResponse
-      );
-      res.status(200).json(mappedResponse);
+      res.status(200).json(actor);
     } else {
       res.status(404).json({ error: 'Actor not found' });
     }

@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { getActorFindUniqueArgs } from '../services/helpers/getActorFindUniqueArgs';
+import { getActorFindUniqueArgs } from '../services/helpers/actors/getActorFindUniqueArgs';
 import { fetchActorById, fetchAllActors } from '../services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 
@@ -17,17 +17,16 @@ export const getAllActors = async (req: Request, res: Response) => {
   }
 };
 
-export const getActorById = async (req: Request, res: Response) => {
+export const getActorById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const actor = await fetchActorById(getActorFindUniqueArgs(req));
-    if (actor) {
-      res.status(200).json(actor);
-    } else {
-      res.status(404).json({ error: 'Actor not found' });
-    }
+    res.status(200).json(actor);
   } catch (error: any) {
-    console.error('Error fetching actor:', error);
-    res.status(500).json({ error: error.message || 'Failed to fetch actor' });
+    next(error);
   }
 };
 

@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { getActorFindUniqueArgs } from '../../src/services/helpers/getActorFindUniqueArgs';
+import { getActorFindUniqueArgs } from '../../../../../src/services/helpers/actors/getActorFindUniqueArgs';
 
 describe('getActorFindUniqueArgs', () => {
   it('should return the correct args when taking in a id route param', () => {

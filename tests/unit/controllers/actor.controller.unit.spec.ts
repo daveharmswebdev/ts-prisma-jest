@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import {
   getAllActors,
   getActorById,
@@ -8,13 +8,14 @@ import {
   fetchActorById,
 } from '../../../src/services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
-import { getActorFindUniqueArgs } from '../../../src/services/helpers/getActorFindUniqueArgs';
+import { getActorFindUniqueArgs } from '../../../src/services/helpers/actors/getActorFindUniqueArgs';
+import createError from 'http-errors';
 
 jest.mock('../../../src/services/actor.service');
 jest.mock(
   '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs'
 );
-jest.mock('../../../src/services/helpers/getActorFindUniqueArgs');
+jest.mock('../../../src/services/helpers/actors/getActorFindUniqueArgs');
 
 const mockFetchAllActors = fetchAllActors as jest.Mock;
 const mockFetchAllActorsWithFilmCountArgs =
@@ -25,6 +26,7 @@ const mockFetchActorById = fetchActorById as jest.Mock;
 describe('ActorController', () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
+  let next: NextFunction;
 
   jest.spyOn(console, 'error').mockImplementation(() => {});
 
@@ -39,6 +41,8 @@ describe('ActorController', () => {
         status: jest.fn().mockReturnThis(),
         send: jest.fn(),
       };
+
+      next = jest.fn();
     });
 
     afterEach(() => {
@@ -178,7 +182,7 @@ describe('ActorController', () => {
       });
       mockFetchActorById.mockReturnValue(mockActor);
 
-      await getActorById(req as Request, res as Response);
+      await getActorById(req as Request, res as Response, next);
       expect(mockGetActorFindUniqueArgs).toHaveBeenCalledWith(req as Request);
       expect(mockFetchActorById).toHaveBeenCalledWith({
         where: {
@@ -187,6 +191,7 @@ describe('ActorController', () => {
       });
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith(mockActor);
+      expect(next).not.toHaveBeenCalled();
     });
 
     it('should return a 404 if the actor is not found', async () => {
@@ -195,17 +200,26 @@ describe('ActorController', () => {
           actor_id: 1,
         },
       });
-      mockFetchActorById.mockReturnValue(null);
+      mockFetchActorById.mockRejectedValue(
+        createError(404, 'Actor not found.')
+      );
 
-      await getActorById(req as Request, res as Response);
+      await getActorById(req as Request, res as Response, next);
       expect(mockGetActorFindUniqueArgs).toHaveBeenCalledWith(req as Request);
       expect(mockFetchActorById).toHaveBeenCalledWith({
         where: {
           actor_id: 1,
         },
       });
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Actor not found' });
+      expect(res.status).not.toHaveBeenCalled();
+      expect(res.json).not.toHaveBeenCalled();
+
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Actor not found.',
+          status: 404,
+        })
+      );
     });
 
     it('should return a 500 if there is an error fetching the actor', async () => {
@@ -214,17 +228,18 @@ describe('ActorController', () => {
           actor_id: 1,
         },
       });
-      mockFetchActorById.mockRejectedValue(new Error('test error'));
+      mockFetchActorById.mockRejectedValue(createError(500, 'Test error.'));
 
-      await getActorById(req as Request, res as Response);
-      expect(mockGetActorFindUniqueArgs).toHaveBeenCalledWith(req as Request);
-      expect(mockFetchActorById).toHaveBeenCalledWith({
-        where: {
-          actor_id: 1,
-        },
-      });
-      expect(res.status).toHaveBeenCalledWith(500);
-      expect(res.json).toHaveBeenCalledWith({ error: 'test error' });
+      await getActorById(req as Request, res as Response, next);
+      expect(res.status).not.toHaveBeenCalled();
+      expect(res.json).not.toHaveBeenCalled();
+
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Test error.',
+          status: 500,
+        })
+      );
     });
   });
 });

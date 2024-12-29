@@ -2,7 +2,7 @@ import {
   IActorAndFilms,
   IActorResponse,
   mapFetchActorAndFilms,
-} from '../../../../src/controllers/helpers/mappers';
+} from '../../../../src/services/helpers/actors/actor.mappers';
 
 describe('mapFetchActorAndFilms', () => {
   it('should map actor response to actor and films object correctly', () => {

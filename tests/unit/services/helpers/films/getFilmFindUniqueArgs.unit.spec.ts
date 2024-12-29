@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { getFilmFindUniqueArgs } from '../../src/services/helpers/getFilmFindUniqueArgs';
+import { getFilmFindUniqueArgs } from '../../../../../src/services/helpers/films/getFilmFindUniqueArgs';
 
 describe('getFilmFindUniqueArgs', () => {
   it('should return a where object when given a film id', () => {

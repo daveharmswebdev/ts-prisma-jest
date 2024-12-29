@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { fetchAllActorsWithFilmCountArgs } from '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
+import { fetchAllActorsWithFilmCountArgs } from '../../../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 
 describe('fetchAllActorsWithFilmCountArgs', () => {
   it('should return args for fetchAllActorsWithFilmCount', () => {

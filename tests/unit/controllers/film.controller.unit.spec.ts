@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { getAllFilms } from '../../../src/controllers/film.controller';
-import { getFilmFindManyArgs } from '../../../src/services/helpers/getFilmFindManyArgs';
+import { getFilmFindManyArgs } from '../../../src/services/helpers/films/getFilmFindManyArgs';
 import { fetchAllFilms } from '../../../src/services/film.service';
 
 jest.mock('../../../src/services/film.service');
-jest.mock('../../../src/services/helpers/getFilmFindManyArgs');
+jest.mock('../../../src/services/helpers/films/getFilmFindManyArgs');
 
 const mockGetFilmFindManyArgs = getFilmFindManyArgs as jest.Mock;
 const mockFetchAllFilms = fetchAllFilms as jest.Mock;

@@ -1,8 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { getActorFindUniqueArgs } from '../services/helpers/actors/getActorFindUniqueArgs';
-import { fetchActorById, fetchAllActors } from '../services/actor.service';
+import {
+  addActor,
+  fetchActorById,
+  fetchAllActors,
+} from '../services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
+import { createResponse } from './helpers/createResponse';
 
 const prisma = new PrismaClient();
 
@@ -33,16 +38,19 @@ export const getActorById = async (
   }
 };
 
-export const createActor = async (req: Request, res: Response) => {
+export const createActor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { first_name, last_name } = req.body;
   try {
-    const newActor = await prisma.actor.create({
+    const newActor = await addActor({
       data: { first_name, last_name, last_update: new Date() },
     });
-    res.status(201).json(newActor);
+    res.status(201).json(createResponse(newActor));
   } catch (error) {
-    console.error('Error creating actor:', error);
-    res.status(500).json({ error: 'Failed to create actor' });
+    next(error);
   }
 };
 

@@ -3,17 +3,24 @@ import {
   fetchActorById,
   fetchAllActors,
   IFetchAllActorsDto,
+  addActor,
 } from '../../../src/services/actor.service';
 
 jest.mock('../../../src/libs/prisma', () => ({
   actor: {
     findUnique: jest.fn(),
     findMany: jest.fn(),
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
   },
 }));
 
 const mockFindUnique = prisma.actor.findUnique as jest.Mock;
 const mockFindMany = prisma.actor.findMany as jest.Mock;
+const mockCreate = prisma.actor.create as jest.Mock;
+const mockUpdate = prisma.actor.update as jest.Mock;
+const mockDelete = prisma.actor.delete as jest.Mock;
 
 describe('ActorService', () => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -340,6 +347,40 @@ describe('ActorService', () => {
           name: 'NotFoundError', // Indicates the specific error type
         });
       }
+    });
+  });
+
+  describe('add actor', () => {
+    it('should add an actor', async () => {
+      const actorData = {
+        data: { first_name: 'John', last_name: 'Doe' },
+      };
+      const mockCreatedActor = {
+        actor_id: 1,
+        first_name: 'John',
+        last_name: 'Doe',
+        created_at: new Date(),
+      };
+
+      mockCreate.mockResolvedValue(mockCreatedActor);
+
+      // Call the function
+      const result = await addActor(actorData);
+
+      // Assertions
+      expect(mockCreate).toHaveBeenCalledTimes(1); // Ensure create was called
+      expect(mockCreate).toHaveBeenCalledWith(actorData); // Ensure correct input
+      expect(result).toEqual(mockCreatedActor); // Ensure correct output
+    });
+
+    it('should throw an error if the actor already exists', async () => {
+      mockCreate.mockRejectedValue(new Error('Actor already exists'));
+
+      await expect(
+        addActor({
+          data: { first_name: 'John', last_name: 'Doe' },
+        })
+      ).rejects.toThrow(new Error('Actor already exists'));
     });
   });
 });

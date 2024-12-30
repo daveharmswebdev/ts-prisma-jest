@@ -64,3 +64,15 @@ export const fetchActorById = async (args: Prisma.actorFindUniqueArgs) => {
     throw createError(500, 'Failed to fetch actor. Please try again later.');
   }
 };
+
+export const addActor = async (data: Prisma.actorCreateArgs) => {
+  try {
+    return await prisma.actor.create(data);
+  } catch (error: any) {
+    console.error('Error while creating actor:', error);
+    throw createError(
+      500,
+      error.message || 'Failed to create actor. Please try again later.'
+    );
+  }
+};

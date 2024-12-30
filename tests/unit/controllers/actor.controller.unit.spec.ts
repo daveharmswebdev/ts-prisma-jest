@@ -2,10 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import {
   getAllActors,
   getActorById,
+  createActor,
 } from '../../../src/controllers/actor.controller';
 import {
   fetchAllActors,
   fetchActorById,
+  addActor,
 } from '../../../src/services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 import { getActorFindUniqueArgs } from '../../../src/services/helpers/actors/getActorFindUniqueArgs';
@@ -22,6 +24,7 @@ const mockFetchAllActorsWithFilmCountArgs =
   fetchAllActorsWithFilmCountArgs as jest.Mock;
 const mockGetActorFindUniqueArgs = getActorFindUniqueArgs as jest.Mock;
 const mockFetchActorById = fetchActorById as jest.Mock;
+const mockAddActor = addActor as jest.Mock;
 
 describe('ActorController', () => {
   let req: Partial<Request>;
@@ -236,6 +239,73 @@ describe('ActorController', () => {
       mockFetchActorById.mockRejectedValue(createError(500, 'Test error.'));
 
       await getActorById(req as Request, res as Response, next);
+      expect(res.status).not.toHaveBeenCalled();
+      expect(res.json).not.toHaveBeenCalled();
+
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: 'Test error.',
+          status: 500,
+        })
+      );
+    });
+  });
+
+  describe('create actor', () => {
+    beforeEach(() => {
+      req = {
+        query: {},
+      };
+
+      res = {
+        json: jest.fn(),
+        status: jest.fn().mockReturnThis(),
+        send: jest.fn(),
+      };
+
+      next = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should create an actor', async () => {
+      req = {
+        body: { first_name: 'John', last_name: 'Doe' },
+      };
+      const mockCreatedActor = {
+        actor_id: 1,
+        first_name: 'John',
+        last_name: 'Doe',
+        last_update: new Date(),
+      };
+      const mockResponse = {
+        success: true,
+        data: mockCreatedActor,
+        error: null,
+      };
+
+      mockAddActor.mockReturnValue(mockCreatedActor);
+
+      await createActor(req as Request, res as Response, next);
+      expect(mockAddActor).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          first_name: 'John',
+          last_name: 'Doe',
+        }),
+      });
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith(mockResponse);
+    });
+
+    it('should pass errors to the error handler', async () => {
+      mockAddActor.mockRejectedValue(createError(500, 'Test error.'));
+      req = {
+        body: { first_name: 'John', last_name: 'Doe' },
+      };
+
+      await createActor(req as Request, res as Response, next);
       expect(res.status).not.toHaveBeenCalled();
       expect(res.json).not.toHaveBeenCalled();
 

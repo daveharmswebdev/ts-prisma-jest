@@ -51,8 +51,11 @@ jobs:
             fi
           done
 
-      - name: Set up environment variables
-        run: source .env.test
+      - name: Apply Prisma Migrations
+        run: |
+          echo "Applying Prisma migrations..."
+          source .env.test
+          npx prisma migrate deploy
 
       - name: Run integration tests
         run: npx jest --config jest.integration.config.js

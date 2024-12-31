@@ -8,6 +8,7 @@ import {
 } from '../services/actor.service';
 import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 import { createResponse } from './helpers/createResponse';
+import { CreateActorInput } from '../validators/actor.validator';
 
 const prisma = new PrismaClient();
 
@@ -39,7 +40,7 @@ export const getActorById = async (
 };
 
 export const createActor = async (
-  req: Request,
+  req: Request<{}, {}, CreateActorInput>,
   res: Response,
   next: NextFunction
 ) => {

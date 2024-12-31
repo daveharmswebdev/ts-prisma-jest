@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Copy .env.test to .env
+        run: cp .env.test .env
+
       - name: Run Unit Tests
         run: npm test
 
@@ -54,7 +57,6 @@ jobs:
       - name: Apply Prisma Migrations
         run: |
           echo "Applying Prisma migrations..."
-          source .env.test
           npx prisma migrate deploy
 
       - name: Run integration tests

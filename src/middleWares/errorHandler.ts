@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from 'express';
 import { isHttpError } from 'http-errors';
-import { createResponse } from '../controllers/helpers/createResponse';
+import { createResponse } from '@/controllers/helpers/createResponse';
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   console.error(`[${new Date().toISOString()}] Error occurred:`, {

@@ -1,4 +1,4 @@
-import prisma from '../libs/prisma';
+import prisma from '@/libs/prisma';
 import { Prisma } from '@prisma/client';
 import createError from 'http-errors';
 import {

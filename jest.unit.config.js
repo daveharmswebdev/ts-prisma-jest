@@ -3,6 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
+const {pathsToModuleNameMapper} = require("ts-jest");
+const { compilerOptions } = require("./tsconfig.json");
 /**
 * webstorm requires a *.js config file
 */
@@ -33,6 +35,7 @@ const config = {
     'node_modules',
     '<rootDir>/src', // Allows imports from the src directory without relative paths
   ],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/'}),
 };
 
 module.exports = config;

@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { getActorFindUniqueArgs } from '../services/helpers/actors/getActorFindUniqueArgs';
+import { getActorFindUniqueArgs } from '@/services/helpers/actors/getActorFindUniqueArgs';
 import {
   addActor,
   fetchActorById,
   fetchAllActors,
-} from '../services/actor.service';
-import { fetchAllActorsWithFilmCountArgs } from '../services/helpers/actors/fetchAllActorsWithFilmCountArgs';
+} from '@/services/actor.service';
+import { fetchAllActorsWithFilmCountArgs } from '@/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
 import { createResponse } from './helpers/createResponse';
-import { CreateActorInput } from '../validators/actor.validator';
+import { CreateActorInput } from '@/validators/actor.validator';
 
 const prisma = new PrismaClient();
 

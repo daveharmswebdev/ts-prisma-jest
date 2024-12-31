@@ -5,9 +5,9 @@ import {
   createActor,
   updateActor,
   deleteActor,
-} from '../controllers/actor.controller';
-import { validateRequest } from '../middleWares/validate-request';
-import { createActorSchema } from '../validators/actor.validator';
+} from '@/controllers/actor.controller';
+import { validateRequest } from '@/middleWares/validate-request';
+import { createActorSchema } from '@/validators/actor.validator';
 
 const router = Router();
 

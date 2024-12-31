@@ -1,4 +1,4 @@
-name: Hello World Workflow
+name: CI/CD Workflow
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  say-hello:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +24,22 @@ jobs:
       - name: Run Unit Tests
         run: npm test
 
+  build:
+    if: github.ref == 'refs/heads/master'
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: '20.17'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm build

@@ -1,4 +1,6 @@
 const dotenv = require('dotenv');
+const {pathsToModuleNameMapper} = require("ts-jest");
+const { compilerOptions } = require("./tsconfig.json");
 dotenv.config({ path: '.env.test'});
 
 const config = {
@@ -14,6 +16,7 @@ const config = {
     },
     testMatch: ['<rootDir>/tests/integration/**/*.integration.spec.ts'],
     rootDir: './',
+    moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/'}),
 }
 
 module.exports = config;

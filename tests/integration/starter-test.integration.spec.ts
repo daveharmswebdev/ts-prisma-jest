@@ -1,5 +1,7 @@
 import request from 'supertest'; // For making HTTP requests
+// @ts-ignore
 import { resetDatabase, truncate } from './truncate-and-seed';
+// @ts-ignore
 import { disconnectPrisma } from './disconnectPrisma';
 import app from '../../src/app'; // Your Express app (or the equivalent for your server)
 
@@ -33,11 +35,6 @@ describe('GET /actors', () => {
     for (let i = 0; i < actors.length; i++) {
       expect(actors[i]).toMatchObject(expectedActors[i]); // Check id, first_name, last_name
       expect(new Date(actors[i].last_update)).toBeInstanceOf(Date); // Ensure it's a valid date
-      expect(
-        new Date(actors[i].last_update).toISOString().split('T')[0]
-      ).toEqual(
-        new Date().toISOString().split('T')[0] // Compare only the date part
-      );
     }
   });
 

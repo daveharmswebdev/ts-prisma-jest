@@ -3,21 +3,19 @@ import {
   getAllActors,
   getActorById,
   createActor,
-} from '../../../src/controllers/actor.controller';
+} from '@/controllers/actor.controller';
 import {
   fetchAllActors,
   fetchActorById,
   addActor,
-} from '../../../src/services/actor.service';
-import { fetchAllActorsWithFilmCountArgs } from '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
-import { getActorFindUniqueArgs } from '../../../src/services/helpers/actors/getActorFindUniqueArgs';
+} from '@/services/actor.service';
+import { fetchAllActorsWithFilmCountArgs } from '@/services/helpers/actors/fetchAllActorsWithFilmCountArgs';
+import { getActorFindUniqueArgs } from '@/services/helpers/actors/getActorFindUniqueArgs';
 import createError from 'http-errors';
 
-jest.mock('../../../src/services/actor.service');
-jest.mock(
-  '../../../src/services/helpers/actors/fetchAllActorsWithFilmCountArgs'
-);
-jest.mock('../../../src/services/helpers/actors/getActorFindUniqueArgs');
+jest.mock('@/services/actor.service');
+jest.mock('@/services/helpers/actors/fetchAllActorsWithFilmCountArgs');
+jest.mock('@/services/helpers/actors/getActorFindUniqueArgs');
 
 const mockFetchAllActors = fetchAllActors as jest.Mock;
 const mockFetchAllActorsWithFilmCountArgs =

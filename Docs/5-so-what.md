@@ -91,3 +91,23 @@ In the coverage directory you will find a browsable report.
 
 ## Some files don't have coverage.  So what?
 
+We can add a coverage threshold to the config.js file
+
+```js
+  coverageThreshold: {
+    global: {
+      branches: 80, // Require 80% of branch coverage
+      functions: 80, // Require 80% of function coverage
+      lines: 80, // Require 80% of line coverage
+      statements: 80, // Require 80% of statement coverage
+    },
+  },
+```
+
+We add a coverage threshold and rerun the tests and we get these results:
+
+```
+Jest: "global" coverage threshold for statements (80%) not met: 77.63%
+Jest: "global" coverage threshold for lines (80%) not met: 77.63%
+Jest: "global" coverage threshold for functions (80%) not met: 60%
+```

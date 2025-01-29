@@ -8,7 +8,7 @@ import request from 'supertest'; // For making HTTP requests
 import { resetDatabase, truncate } from './truncate-and-seed';
 // @ts-ignore
 import { disconnectPrisma } from './disconnectPrisma';
-import app from '../../src/app'; // Your Express app (or the equivalent for your server)
+import app from '../../src/app';
 
 describe('GET /actors', () => {
   it('should return all actors', async () => {
@@ -34,6 +34,8 @@ describe('GET /actors', () => {
   });
 });
 ```
+
+Unlike unit testing there is no mocking.  We are literally importing and using the app file.
 
 ## Plan
 We are going to call the actors route and test that we get the expected response.
@@ -97,3 +99,53 @@ DATABASE_URL=$DATABASE_URL npx prisma migrate deploy
 ### Note
 
 `COMPOSE_PROJECT_NAME=test` Is important to avoid conflicts that come from indiscriminately naming containers and container projects.  Learned the hard way.
+
+## Truncate and Seed
+
+```typescript
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+export async function resetDatabase() {
+  // Truncate all tables
+  const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
+    SELECT tablename FROM pg_tables WHERE schemaname = 'public';
+  `;
+
+  for (const table of tables) {
+    if (table.tablename !== '_prisma_migrations') {
+      await prisma.$executeRawUnsafe(
+        `TRUNCATE TABLE "${table.tablename}" RESTART IDENTITY CASCADE;`
+      );
+    }
+  }
+
+  console.log('Database truncated successfully.');
+
+  // Seed the database
+  await prisma.language.createMany({
+    data: [{ name: 'English' }, { name: 'French' }],
+  });
+
+  await prisma.actor.createMany({
+    data: [
+      { first_name: 'John', last_name: 'Doe' },
+      { first_name: 'Jane', last_name: 'Smith' },
+    ],
+  });
+
+  console.log('Database seeded successfully.');
+}
+```
+
+## Before Each
+
+```typescript
+// Run this before each test to reset the database
+beforeEach(async () => {
+  await resetDatabase();
+});
+```
+
+The before each is a lifecycle hook that you place in your describe block that your tests, designated by 'it' will execute, before it runs.

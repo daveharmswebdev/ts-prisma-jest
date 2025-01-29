@@ -2,6 +2,8 @@
 
 Integration Testing tests the interaction between multiple components (e.g., modules, services, APIs, DBs) to verify they work together as expected within the system.
 
+They should be few, but meaningful.  In this app we want to test the chain of the controller through the middleware and to the db and back.
+
 ```ts
 import request from 'supertest'; // For making HTTP requests
 // @ts-ignore

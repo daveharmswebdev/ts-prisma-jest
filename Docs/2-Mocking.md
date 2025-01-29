@@ -48,6 +48,42 @@ I suppose we could fork the repo and fix the problem, but that would be absurd. 
 So we mock Prisma. We implement logic that says when the subject under test needs to import Prisma we provide a substitute in which we have absolute control.  We can monitor it and manufacture the return value. To reiterate, we trust Prisma.
 Prisma has already been validated. It is our own business logic, the logic that we are responsible for developing, that needs to be validated.
 
+Mocking is not the same as stubbing.  
+
+```typescript
+describe('getUserDetails function', () => {
+  it('should return formatted user details using the provided stub', () => {
+    // arrange
+    const myStub = () => {
+      return { id: 1, name: "John" }; // Stubbed return value
+    };
+
+    // act
+    const result = getUserDetails(myStub);
+
+    // assert
+    expect(result).toBe('User: 1 - John'); // Verify that the stub result worked as expected
+  });
+});
+```
+
+Stubbing we are just replacing an imported function. Mocking is a stubbing but with the added value of a spy.  With `jest.fn()` you get both.  You can return a value, but you can also monitor the use of that function and make assertions accordingly.
+
+```typescript
+      expect(mockFetchAllActors).toHaveBeenCalledWith({
+        select: {
+          actor_id: true,
+          first_name: true,
+          last_name: true,
+          _count: {
+            select: {
+              film_actor: true, // Counts the number of films associated with the actor
+            },
+          },
+        },
+      });
+```
+
 ```typescript
 import prisma from '../../../src/libs/prisma';
 import {

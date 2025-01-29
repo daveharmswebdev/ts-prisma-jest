@@ -42,13 +42,11 @@ But we don't want to run this as integration test, we want to focus on the busin
 Why test the Prisma logic?
 We have already decided that we trust that library and find it reliable, which is why we are importing it into our code base.
 Furthermore (and this is just my thought) we have no control over that logic.
-If it faulty, what can we do?  We can raise an issue and that's about it. 
-I suppose we could fork the repo and fix the problem, but that would be absurd. Why take on that burden?  
+If it is faulty, what can we do?  We can raise an issue and that's about it. 
+I suppose we could fork the repo and fix the problem, but that would be absurd. Why take on that burden?
 
-At that point just use Sequelize.  Actually fork Prisma instead.
-
-So we mock Prisma. We implement logic that says when the subject under test needs to import Prisma we provide a substitute in which we have absolute control over.  We can monitor it and control the return value. To reiterate, we trust Prisma.
-Prisma has already been validated. It is our own business logic, the logic that we are responsible for and can control, that needs to be validated.
+So we mock Prisma. We implement logic that says when the subject under test needs to import Prisma we provide a substitute in which we have absolute control.  We can monitor it and manufacture the return value. To reiterate, we trust Prisma.
+Prisma has already been validated. It is our own business logic, the logic that we are responsible for developing, that needs to be validated.
 
 ```typescript
 import prisma from '../../../src/libs/prisma';

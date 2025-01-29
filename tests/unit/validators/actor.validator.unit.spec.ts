@@ -25,7 +25,7 @@ describe('ActorValidator - createActorSchema', () => {
       const zodError = error as ZodError;
       expect(zodError.issues).toEqual([
         {
-          code: 'invalid_type', // Zod error code
+          code: 'invalid_type!', // Zod error code
           expected: 'string', // Expected field type
           received: 'undefined', // What Zod received instead
           path: ['first_name'], // The path where the error occurred

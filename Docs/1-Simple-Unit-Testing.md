@@ -296,7 +296,11 @@ describe('Produce where object', () => {
 
 There might be more paths to test, and therefore more 'it' blocks.  But the logic is all contained within the function.  There is no imported logic.
 
-As programmers we should prefer this kind of simplistic code.  We want code that adheres the Single Responsibility Principle.
+Furthermore it is deterministic and idempotent, meaning that no matter what the same inputs yields the same output.
+
+As programmers we should prefer this kind of simplistic code.  It's not always this simple, but while it is we should take advantage of leveraging unit testing to ensure quality and reliability.  
+
+We want code that adheres the Single Responsibility Principle.
 
 The Single Responsibility Principle (SRP) states that a class, module, or function should have one and only one reason to change, meaning it should only perform a single, well-defined responsibility.
 

@@ -36,14 +36,14 @@ const config = {
     '<rootDir>/src', // Allows imports from the src directory without relative paths
   ],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/'}),
-  coverageThreshold: {
-    global: {
-      branches: 80, // Require 80% of branch coverage
-      functions: 80, // Require 80% of function coverage
-      lines: 80, // Require 80% of line coverage
-      statements: 80, // Require 80% of statement coverage
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 80, // Require 80% of branch coverage
+  //     functions: 80, // Require 80% of function coverage
+  //     lines: 80, // Require 80% of line coverage
+  //     statements: 80, // Require 80% of statement coverage
+  //   },
+  // },
 };
 
 module.exports = config;

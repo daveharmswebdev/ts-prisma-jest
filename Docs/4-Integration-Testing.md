@@ -43,6 +43,12 @@ We just need to create the db that the app is using.
 
 ## Challenges
 
+If test against a dev, UAT, or Prod database we will have problems.  You lose control of so many variables. If your test fail you can't say for certain that the issue isn't data related.
+
+You would then be forced to right simplistic tests that tests nothing, like the value returned is a 200.
+
+My solution is to create a minimalistic, dockerized db on the fly just for the integration test.  Furthermore truncate and seed between tests, reducing bad data doubts as much as possible.
+
 ### Script
 
 ```json
